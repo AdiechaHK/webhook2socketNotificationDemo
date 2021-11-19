@@ -1,0 +1,26 @@
+version: "3.3"
+
+services:
+  laravel_app:
+    build:
+      context: ./laravel/
+    environment:
+      APP_DEBUG: "true"
+      APP_NAME: Demo
+      APP_URL: http://0.0.0.0
+      APP_KEY: base64:0AhYZOwYThNBFfPOUpRCD3ztyvPSdTWzu8iQzGjnUoI=
+    ports:
+      - 8000:8000
+    volumes:
+      - ./laravel/:/app
+    restart: on-failure
+
+  node_app:
+    build:
+      context: ./socket_app/
+    ports:
+    - 9000:9000
+    depends_on:
+      - laravel_app
+    restart: on-failure
+
